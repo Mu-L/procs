@@ -6,7 +6,7 @@ use crate::opt::{ArgColorMode, ArgPagerMode};
 use crate::process::collect_proc;
 use crate::style::{apply_color, apply_style, color_to_column_style};
 use crate::term_info::TermInfo;
-use crate::util::{KeywordClass, classify, find_column_kind, find_exact, find_partial, truncate};
+use crate::util::{KeywordClass, ansi_trim_end, classify, find_column_kind, find_exact, find_partial, truncate};
 use anyhow::{Error, bail};
 #[cfg(not(target_os = "windows"))]
 use pager::Pager;
@@ -511,7 +511,7 @@ impl View {
                 );
             }
         }
-        row = row.trim_end().to_string();
+        row = ansi_trim_end(&row);
         row = truncate(&row, self.term_info.width).to_string();
         self.term_info.write_line(&row)?;
         Ok(())
@@ -533,7 +533,7 @@ impl View {
                 );
             }
         }
-        row = row.trim_end().to_string();
+        row = ansi_trim_end(&row);
         row = truncate(&row, self.term_info.width).to_string();
         self.term_info.write_line(&row)?;
         Ok(())
@@ -562,7 +562,7 @@ impl View {
                 );
             }
         }
-        row = row.trim_end().to_string();
+        row = ansi_trim_end(&row);
         row = truncate(&row, self.term_info.width).to_string();
         self.term_info.write_line(&row)?;
         Ok(())
