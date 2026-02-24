@@ -1,6 +1,6 @@
 use crate::process::ProcessInfo;
 use crate::util::bytify;
-use crate::{column_default, Column};
+use crate::{Column, column_default};
 use std::cmp;
 use std::collections::HashMap;
 
@@ -30,9 +30,8 @@ impl VoluntaryContextSw {
 impl Column for VoluntaryContextSw {
     fn add(&mut self, proc: &ProcessInfo) {
         let (fmt_content, raw_content) = if let Some(ref status) = proc.curr_status {
-            if status.voluntary_ctxt_switches.is_some()
-            {
-                let sw = status.voluntary_ctxt_switches.unwrap();
+            if let Some(voluntary_ctxt_switches) = status.voluntary_ctxt_switches {
+                let sw = voluntary_ctxt_switches;
                 (bytify(sw), sw)
             } else {
                 (String::new(), 0)
@@ -51,8 +50,7 @@ impl Column for VoluntaryContextSw {
 #[cfg(target_os = "freebsd")]
 impl Column for VoluntaryContextSw {
     fn add(&mut self, proc: &ProcessInfo) {
-        let raw_content =
-            proc.curr_proc.info.rusage.nvcsw as u64;
+        let raw_content = proc.curr_proc.info.rusage.nvcsw as u64;
         let fmt_content = bytify(raw_content);
 
         self.fmt_contents.insert(proc.pid, fmt_content);

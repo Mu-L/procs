@@ -1,13 +1,13 @@
+use crate::Opt;
 use crate::config::*;
 use crate::term_info::TermInfo;
 use crate::util::get_theme;
 use crate::view::View;
-use crate::Opt;
 use anyhow::Error;
 use chrono::offset::Local;
 use getch::Getch;
 use std::collections::HashMap;
-use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::mpsc::{Receiver, Sender, channel};
 use std::thread;
 use std::time::Duration;
 
@@ -58,12 +58,14 @@ impl Watcher {
     }
 
     fn spawn_sleep(rx: Receiver<Command>, tx: Sender<Command>, interval: u64) {
-        let _ = thread::spawn(move || loop {
-            if let Ok(Command::Quit) = rx.recv() {
-                break;
+        let _ = thread::spawn(move || {
+            loop {
+                if let Ok(Command::Quit) = rx.recv() {
+                    break;
+                }
+                thread::sleep(Duration::from_millis(interval));
+                let _ = tx.send(Command::Wake);
             }
-            thread::sleep(Duration::from_millis(interval));
-            let _ = tx.send(Command::Wake);
         });
     }
 

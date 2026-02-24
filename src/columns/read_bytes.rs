@@ -1,6 +1,6 @@
 use crate::process::ProcessInfo;
 use crate::util::bytify;
-use crate::{column_default, Column};
+use crate::{Column, column_default};
 use std::cmp;
 use std::collections::HashMap;
 
@@ -29,12 +29,11 @@ impl ReadBytes {
 #[cfg(any(target_os = "linux", target_os = "android"))]
 impl Column for ReadBytes {
     fn add(&mut self, proc: &ProcessInfo) {
-        let (fmt_content, raw_content) = if proc.curr_io.is_some() && proc.prev_io.is_some() {
+        let (fmt_content, raw_content) = if let Some(curr_io) = proc.curr_io
+            && let Some(prev_io) = proc.prev_io
+        {
             let interval_ms = proc.interval.as_secs() + u64::from(proc.interval.subsec_millis());
-            let io = (proc.curr_io.as_ref().unwrap().read_bytes
-                - proc.prev_io.as_ref().unwrap().read_bytes)
-                * 1000
-                / interval_ms;
+            let io = (curr_io.read_bytes - prev_io.read_bytes) * 1000 / interval_ms;
             (bytify(io), io)
         } else {
             (String::new(), 0)

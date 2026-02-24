@@ -1,6 +1,6 @@
 use crate::process::ProcessInfo;
 use crate::util::bytify;
-use crate::{column_default, Column};
+use crate::{Column, column_default};
 use std::cmp;
 use std::collections::HashMap;
 
@@ -30,9 +30,8 @@ impl InvoluntaryContextSw {
 impl Column for InvoluntaryContextSw {
     fn add(&mut self, proc: &ProcessInfo) {
         let (fmt_content, raw_content) = if let Some(ref status) = proc.curr_status {
-            if status.nonvoluntary_ctxt_switches.is_some()
-            {
-                let sw = status.nonvoluntary_ctxt_switches.unwrap();
+            if let Some(nonvoluntary_ctxt_switches) = status.nonvoluntary_ctxt_switches {
+                let sw = nonvoluntary_ctxt_switches;
                 (bytify(sw), sw)
             } else {
                 (String::new(), 0)

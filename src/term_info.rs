@@ -1,7 +1,7 @@
 use anyhow::Error;
 use console::Term;
-use minus::input::{self, HashedEventRegister, InputEvent};
 use minus::Pager;
+use minus::input::{self, HashedEventRegister, InputEvent};
 use std::cell::RefCell;
 use std::fmt::Write;
 

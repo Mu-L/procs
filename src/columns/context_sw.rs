@@ -30,11 +30,11 @@ impl ContextSw {
 impl Column for ContextSw {
     fn add(&mut self, proc: &ProcessInfo) {
         let (fmt_content, raw_content) = if let Some(ref status) = proc.curr_status {
-            if status.voluntary_ctxt_switches.is_some()
-                && status.nonvoluntary_ctxt_switches.is_some()
+            if let Some(voluntary_ctxt_switches) = status.voluntary_ctxt_switches
+                && let Some(nonvoluntary_ctxt_switches) = status.nonvoluntary_ctxt_switches
             {
-                let sw = status.voluntary_ctxt_switches.unwrap()
-                    + status.nonvoluntary_ctxt_switches.unwrap();
+                let sw = voluntary_ctxt_switches
+                    + nonvoluntary_ctxt_switches;
                 (bytify(sw), sw)
             } else {
                 (String::new(), 0)

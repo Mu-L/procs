@@ -3,27 +3,27 @@ use chrono::{Local, NaiveDate};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::ffi::c_void;
-use std::mem::{size_of, zeroed, MaybeUninit};
+use std::mem::{MaybeUninit, size_of, zeroed};
 use std::path::PathBuf;
 use std::ptr;
 use std::thread;
 use std::time::{Duration, Instant};
 use windows_sys::Win32::Foundation::{CloseHandle, FALSE, FILETIME, HANDLE, HMODULE, MAX_PATH};
 use windows_sys::Win32::Security::{
-    AdjustTokenPrivileges, GetTokenInformation, LookupAccountSidW, LookupPrivilegeValueW,
-    TokenGroups, TokenUser, PSID, SE_DEBUG_NAME, SE_PRIVILEGE_ENABLED, SID,
-    TOKEN_ADJUST_PRIVILEGES, TOKEN_GROUPS, TOKEN_PRIVILEGES, TOKEN_QUERY, TOKEN_USER,
+    AdjustTokenPrivileges, GetTokenInformation, LookupAccountSidW, LookupPrivilegeValueW, PSID,
+    SE_DEBUG_NAME, SE_PRIVILEGE_ENABLED, SID, TOKEN_ADJUST_PRIVILEGES, TOKEN_GROUPS,
+    TOKEN_PRIVILEGES, TOKEN_QUERY, TOKEN_USER, TokenGroups, TokenUser,
 };
 use windows_sys::Win32::System::Diagnostics::ToolHelp::{
-    CreateToolhelp32Snapshot, Process32First, Process32Next, PROCESSENTRY32, TH32CS_SNAPPROCESS,
+    CreateToolhelp32Snapshot, PROCESSENTRY32, Process32First, Process32Next, TH32CS_SNAPPROCESS,
 };
 use windows_sys::Win32::System::ProcessStatus::{
     EnumProcessModulesEx, GetModuleBaseNameW, GetProcessMemoryInfo, K32EnumProcesses,
     LIST_MODULES_ALL, PROCESS_MEMORY_COUNTERS, PROCESS_MEMORY_COUNTERS_EX,
 };
 use windows_sys::Win32::System::Threading::{
-    GetCurrentProcess, GetPriorityClass, GetProcessIoCounters, GetProcessTimes, OpenProcess,
-    OpenProcessToken, IO_COUNTERS, PROCESS_QUERY_INFORMATION, PROCESS_VM_READ,
+    GetCurrentProcess, GetPriorityClass, GetProcessIoCounters, GetProcessTimes, IO_COUNTERS,
+    OpenProcess, OpenProcessToken, PROCESS_QUERY_INFORMATION, PROCESS_VM_READ,
 };
 
 pub struct ProcessInfo {

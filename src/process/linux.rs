@@ -1,6 +1,6 @@
-use procfs::process::{FDInfo, Io, Process, Stat, Status, TasksIter};
 use procfs::ProcError;
 use procfs::ProcessCGroup;
+use procfs::process::{FDInfo, Io, Process, Stat, Status, TasksIter};
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::thread;
@@ -90,7 +90,7 @@ pub fn collect_proc(
     let mut base_tasks = HashMap::new();
     let mut ret = Vec::new();
 
-    let all_proc = if let Some(ref x) = procfs_path {
+    let all_proc = if let Some(x) = procfs_path {
         procfs::process::all_processes_with_root(x)
     } else {
         procfs::process::all_processes()
@@ -101,10 +101,8 @@ pub fn collect_proc(
             if let Ok(stat) = proc.stat() {
                 let io = proc.io().ok();
                 let time = Instant::now();
-                if with_thread {
-                    if let Ok(iter) = proc.tasks() {
-                        collect_task(iter, &mut base_tasks);
-                    }
+                if with_thread && let Ok(iter) = proc.tasks() {
+                    collect_task(iter, &mut base_tasks);
                 }
                 base_procs.push((proc.pid(), stat, io, time));
             }
@@ -143,10 +141,8 @@ pub fn collect_proc(
         }
 
         let mut curr_tasks = HashMap::new();
-        if with_thread {
-            if let Ok(iter) = curr_proc.tasks() {
-                collect_task(iter, &mut curr_tasks);
-            }
+        if with_thread && let Ok(iter) = curr_proc.tasks() {
+            collect_task(iter, &mut curr_tasks);
         }
 
         let curr_proc = ProcessTask::Process {

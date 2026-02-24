@@ -1,5 +1,5 @@
-use crate::process::ProcessInfo;
 use crate::Column;
+use crate::process::ProcessInfo;
 #[cfg(target_os = "macos")]
 use libproc::libproc::net_info::TcpSIState;
 #[cfg(any(target_os = "linux", target_os = "android"))]
@@ -14,7 +14,7 @@ use std::net::{Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6};
 use windows_sys::Win32::Foundation::{ERROR_INSUFFICIENT_BUFFER, NO_ERROR};
 #[cfg(target_os = "windows")]
 use windows_sys::Win32::NetworkManagement::IpHelper::{
-    GetTcp6Table2, GetTcpTable2, MIB_TCP6TABLE2, MIB_TCPTABLE2, MIB_TCP_STATE, MIB_TCP_STATE_LISTEN,
+    GetTcp6Table2, GetTcpTable2, MIB_TCP_STATE, MIB_TCP_STATE_LISTEN, MIB_TCP6TABLE2, MIB_TCPTABLE2,
 };
 #[cfg(target_os = "windows")]
 use windows_sys::Win32::Networking::WinSock::{ntohl, ntohs};
@@ -68,10 +68,10 @@ impl Column for TcpPort {
             for sock in &socks {
                 let mut tcp_iter = self.tcp_entry.iter().chain(self.tcp6_entry.iter());
                 let entry = tcp_iter.find(|&x| x.inode == *sock);
-                if let Some(entry) = entry {
-                    if entry.state == TcpState::Listen {
-                        ports.push(entry.local_address.port());
-                    }
+                if let Some(entry) = entry
+                    && entry.state == TcpState::Listen
+                {
+                    ports.push(entry.local_address.port());
                 }
             }
             ports.sort_unstable();
