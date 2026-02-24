@@ -1,5 +1,5 @@
-use crate::process::ProcessInfo;
 use crate::Column;
+use crate::process::ProcessInfo;
 use std::cmp;
 use std::collections::HashMap;
 
@@ -136,10 +136,10 @@ impl Column for Tree {
         for p in self.rev_tree.values() {
             if !self.rev_tree.contains_key(p) {
                 root_pids.push(*p);
-            } else if let Some(ppid) = self.rev_tree.get(p) {
-                if *ppid == *p {
-                    root_pids.push(*p);
-                }
+            } else if let Some(ppid) = self.rev_tree.get(p)
+                && *ppid == *p
+            {
+                root_pids.push(*p);
             }
         }
         root_pids.sort_unstable();

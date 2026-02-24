@@ -8,9 +8,9 @@ categories = ["command-line-utilities"]
 license = "MIT"
 readme = "README.md"
 description = "A modern replacement for ps"
-edition = "2021"
+edition = "2024"
 exclude = ["img/*", "config/*"]
-rust-version = "1.76"
+rust-version = "1.88"
 
 [package.metadata.release]
 pre-release-commit-message = "Prepare to v{{version}}"

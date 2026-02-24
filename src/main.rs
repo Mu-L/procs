@@ -22,7 +22,7 @@ use console::Term;
 use std::cmp;
 use std::collections::HashMap;
 use std::fs;
-use std::io::{stdout, Read};
+use std::io::{Read, stdout};
 use std::path::PathBuf;
 use std::time::Instant;
 use unicode_width::UnicodeWidthStr;
@@ -214,7 +214,7 @@ mod tests {
         config.pager.mode = ConfigPagerMode::Disable;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs"];
+        let args = ["procs"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
@@ -226,39 +226,39 @@ mod tests {
         config.pager.mode = ConfigPagerMode::Disable;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs", "root"];
+        let args = ["procs", "root"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
-        let args = vec!["procs", "1"];
+        let args = ["procs", "1"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
-        let args = vec!["procs", "--or", "root", "1"];
+        let args = ["procs", "--or", "root", "1"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
-        let args = vec!["procs", "--and", "root", "1"];
+        let args = ["procs", "--and", "root", "1"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
-        let args = vec!["procs", "--nor", "root", "1"];
+        let args = ["procs", "--nor", "root", "1"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
-        let args = vec!["procs", "--nand", "root", "1"];
+        let args = ["procs", "--nand", "root", "1"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
         config.search.nonnumeric_search = ConfigSearchKind::Exact;
         config.search.numeric_search = ConfigSearchKind::Partial;
-        let args = vec!["procs", "root", "1"];
+        let args = ["procs", "root", "1"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
@@ -276,7 +276,7 @@ mod tests {
         config.display.cut_to_terminal = false;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs"];
+        let args = ["procs"];
         let mut opt = Opt::parse_from(args.iter());
         config.pager.mode = ConfigPagerMode::Disable;
         let ret = run_default(&mut opt, &config);
@@ -289,7 +289,7 @@ mod tests {
         config.pager.mode = ConfigPagerMode::Disable;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs", "--insert", "ppid"];
+        let args = ["procs", "--insert", "ppid"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
@@ -301,12 +301,12 @@ mod tests {
         config.pager.mode = ConfigPagerMode::Disable;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs", "--sorta", "cpu"];
+        let args = ["procs", "--sorta", "cpu"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
 
-        let args = vec!["procs", "--sortd", "cpu"];
+        let args = ["procs", "--sortd", "cpu"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
@@ -318,7 +318,7 @@ mod tests {
         config.pager.mode = ConfigPagerMode::Disable;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs", "--tree"];
+        let args = ["procs", "--tree"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
@@ -333,7 +333,7 @@ mod tests {
         let _tcp = std::net::TcpListener::bind("127.0.0.1:10000");
         let _udp = std::net::UdpSocket::bind("127.0.0.1:10000");
 
-        let args = vec!["procs"];
+        let args = ["procs"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());
@@ -345,7 +345,7 @@ mod tests {
         config.pager.mode = ConfigPagerMode::Disable;
         config.display.theme = ConfigTheme::Dark;
 
-        let args = vec!["procs", "--use-config", "large"];
+        let args = ["procs", "--use-config", "large"];
         let mut opt = Opt::parse_from(args.iter());
         let ret = run_default(&mut opt, &config);
         assert!(ret.is_ok());

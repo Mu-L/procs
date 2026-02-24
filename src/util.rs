@@ -1,8 +1,8 @@
+use crate::Opt;
 use crate::column::Column;
 use crate::columns::{ConfigColumnKind, KIND_LIST};
 use crate::config::{Config, ConfigColumnAlign, ConfigSearchCase, ConfigSearchLogic, ConfigTheme};
 use crate::opt::ArgThemeMode;
-use crate::Opt;
 use byte_unit::{Byte, UnitType};
 use std::borrow::Cow;
 use std::io;
@@ -343,7 +343,7 @@ pub fn process_new(
     pid: i32,
     procfs: &Option<std::path::PathBuf>,
 ) -> procfs::ProcResult<procfs::process::Process> {
-    if let Some(ref x) = procfs {
+    if let Some(x) = procfs {
         let path = x.join(pid.to_string());
         procfs::process::Process::new_with_root(path)
     } else {

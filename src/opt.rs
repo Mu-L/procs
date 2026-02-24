@@ -1,6 +1,6 @@
-use anyhow::{anyhow, Error};
-use clap::builder::styling::{AnsiColor, Effects, Styles};
+use anyhow::{Error, anyhow};
 use clap::CommandFactory;
+use clap::builder::styling::{AnsiColor, Effects, Styles};
 use clap::{Parser, ValueEnum};
 use clap_complete::Shell;
 use std::path::{Path, PathBuf};

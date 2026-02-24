@@ -1,12 +1,12 @@
 use libc::{c_int, c_void, size_t};
 use libproc::libproc::bsd_info::BSDInfo;
-use libproc::libproc::file_info::{pidfdinfo, ListFDs, ProcFDType};
+use libproc::libproc::file_info::{ListFDs, ProcFDType, pidfdinfo};
 use libproc::libproc::net_info::{InSockInfo, SocketFDInfo, SocketInfoKind, TcpSockInfo};
-use libproc::libproc::pid_rusage::{pidrusage, RUsageInfoV2};
-use libproc::libproc::proc_pid::{listpidinfo, pidinfo, ListThreads};
+use libproc::libproc::pid_rusage::{RUsageInfoV2, pidrusage};
+use libproc::libproc::proc_pid::{ListThreads, listpidinfo, pidinfo};
 use libproc::libproc::task_info::{TaskAllInfo, TaskInfo};
 use libproc::libproc::thread_info::ThreadInfo;
-use libproc::processes::{pids_by_type, ProcFilter};
+use libproc::processes::{ProcFilter, pids_by_type};
 use mach2::{boolean, vm_types};
 use std::ffi::OsStr;
 use std::path::{Path, PathBuf};

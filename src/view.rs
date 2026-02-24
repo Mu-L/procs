@@ -1,3 +1,4 @@
+use crate::Opt;
 use crate::column::Column;
 use crate::columns::*;
 use crate::config::*;
@@ -5,9 +6,8 @@ use crate::opt::{ArgColorMode, ArgPagerMode};
 use crate::process::collect_proc;
 use crate::style::{apply_color, apply_style, color_to_column_style};
 use crate::term_info::TermInfo;
-use crate::util::{classify, find_column_kind, find_exact, find_partial, truncate, KeywordClass};
-use crate::Opt;
-use anyhow::{bail, Error};
+use crate::util::{KeywordClass, classify, find_column_kind, find_exact, find_partial, truncate};
+use anyhow::{Error, bail};
 #[cfg(not(target_os = "windows"))]
 use pager::Pager;
 use std::collections::HashMap;
@@ -154,13 +154,16 @@ impl View {
         }
 
         if slot_idx < opt.insert.len() {
-            bail!("There is not enough slot for inserting columns {:?}.\nPlease add \"Slot\" or \"MultiSlot\" to your config.\nhttps://github.com/dalance/procs#insert-column", opt.insert);
+            bail!(
+                "There is not enough slot for inserting columns {:?}.\nPlease add \"Slot\" or \"MultiSlot\" to your config.\nhttps://github.com/dalance/procs#insert-column",
+                opt.insert
+            );
         }
 
-        if let Some(only_kind) = &opt.only {
-            if !only_kind_found {
-                bail!("kind \"{}\" is not found in columns", only_kind);
-            }
+        if let Some(only_kind) = &opt.only
+            && !only_kind_found
+        {
+            bail!("kind \"{}\" is not found in columns", only_kind);
         }
 
         let show_thread = if opt.thread {
@@ -336,11 +339,11 @@ impl View {
     }
 
     fn get_parent_pids(&self, pid: i32, parent_pids: &mut Vec<i32>) {
-        if let Some(x) = self.parent_pids.get(&pid) {
-            if !parent_pids.contains(x) {
-                parent_pids.push(*x);
-                self.get_parent_pids(*x, parent_pids);
-            }
+        if let Some(x) = self.parent_pids.get(&pid)
+            && !parent_pids.contains(x)
+        {
+            parent_pids.push(*x);
+            self.get_parent_pids(*x, parent_pids);
         }
     }
 
