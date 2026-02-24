@@ -214,7 +214,6 @@ pub fn ansi_trim_end(s: &str) -> String {
     truncate(s, trimmed_width).into_owned()
 }
 
-
 pub fn find_column_kind(pat: &str) -> Option<ConfigColumnKind> {
     // strict search at first
     for (k, (v, _)) in KIND_LIST.iter() {
