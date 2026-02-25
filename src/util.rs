@@ -202,6 +202,18 @@ pub fn truncate(s: &'_ str, width: usize) -> Cow<'_, str> {
     }
 }
 
+/// Trim trailing whitespace from a string that may contain ANSI escape sequences.
+/// Unlike str::trim_end(), this correctly handles ANSI codes at the end of the string
+/// that would otherwise prevent trimming of trailing whitespace.
+pub fn ansi_trim_end(s: &str) -> String {
+    let stripped = console::strip_ansi_codes(s);
+    let trimmed_width = UnicodeWidthStr::width(stripped.trim_end());
+    if trimmed_width == UnicodeWidthStr::width(stripped.as_ref()) {
+        return s.to_string();
+    }
+    truncate(s, trimmed_width).into_owned()
+}
+
 pub fn find_column_kind(pat: &str) -> Option<ConfigColumnKind> {
     // strict search at first
     for (k, (v, _)) in KIND_LIST.iter() {
