@@ -1,6 +1,8 @@
 # Change Log
 
-## [Unreleased](https://github.com/dalance/procs/compare/v0.14.10...Unreleased) - ReleaseDate
+## [Unreleased](https://github.com/dalance/procs/compare/v0.14.11...Unreleased) - ReleaseDate
+
+## [v0.14.11](https://github.com/dalance/procs/compare/v0.14.10...v0.14.11) - 2026-02-27
 
 * [Changed] use actual macos memory usage from libproc pid_rusage [#800](https://github.com/dalance/procs/pull/800)
 * [Added] Add nvcsw and nivcsw [#772](https://github.com/dalance/procs/pull/772)
