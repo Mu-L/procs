@@ -2,6 +2,12 @@
 
 ## [Unreleased](https://github.com/dalance/procs/compare/v0.14.10...Unreleased) - ReleaseDate
 
+* [Changed] use actual macos memory usage from libproc pid_rusage [#800](https://github.com/dalance/procs/pull/800)
+* [Added] Add nvcsw and nivcsw [#772](https://github.com/dalance/procs/pull/772)
+* [Fixed] Fix double-spaced TTY output caused by ANSI-unaware trim_end [#875](https://github.com/dalance/procs/pull/875)
+* [Fixed] Fix panic caused by --only and --tree [#839](https://github.com/dalance/procs/pull/839)
+* [Fixed] Do not print separators in JSON output [#763](https://github.com/dalance/procs/pull/763)
+
 ## [v0.14.10](https://github.com/dalance/procs/compare/v0.14.9...v0.14.10) - 2025-03-28
 
 * [Added] Add Arch column for macOS (Rosetta 2) [#759](https://github.com/dalance/procs/pull/759)
